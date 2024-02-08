@@ -2,5 +2,5 @@ node_modules/
 .env
 .env.e2e
 .vscode
-e2e-tets/
+e2e-tests/
 dist
