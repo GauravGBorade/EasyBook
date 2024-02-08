@@ -23,15 +23,14 @@ app.use(
   })
 ); //security - prevents certain req from certain urls
 
-//testing the connection
-app.get("/api/test", async (req: Request, res: Response) => {
-  res.json({ message: "Hello form express endpoint" });
-});
-
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 //start the server on port - 3000 and on local network with ip 192.168.0.166
 
