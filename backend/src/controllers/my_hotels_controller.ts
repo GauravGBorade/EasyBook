@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import cloudinary from "cloudinary";
-import Hotel, { HotelType } from "../models/hotel";
+import Hotel from "../models/hotel";
+import { HotelType } from "../shared/types";
 export const addHotel = async (req: Request, res: Response) => {
   try {
     const imageFiles = req.files as Express.Multer.File[]; //get the files from multer middleware
