@@ -1,5 +1,6 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
+import { HotelType } from "../../backend/src/models/hotel";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ""; //  || "" will tell server to use same url for fetch requests in build as we are combining both for deployment
 
@@ -31,6 +32,7 @@ export const signIn = async (formData: SignInFormData) => {
     body: JSON.stringify(formData),
   });
   const responseData = await response.json();
+
   if (!response.ok) {
     throw new Error(responseData.message);
   }
@@ -47,7 +49,7 @@ export const validateToken = async () => {
   if (!response.ok) {
     throw new Error("Token Invalid");
   }
-  return response.json();
+  return await response.json();
 };
 
 export const signOut = async () => {
@@ -69,5 +71,15 @@ export const addMyHotel = async (formData: FormData) => {
   if (!response.ok) {
     throw new Error("Failed to add Hotel");
   }
-  return response.json();
+  return await response.json();
+};
+
+export const getMyHotels = async (): Promise<HotelType[]> => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get Hotels");
+  }
+  return await response.json();
 };
