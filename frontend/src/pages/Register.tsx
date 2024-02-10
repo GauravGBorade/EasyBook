@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 export type RegisterFormData = {
   firstName: string;
@@ -14,15 +13,9 @@ export type RegisterFormData = {
 };
 
 export const Register = () => {
-  const { showToast, isLoggedIn } = useAppContext();
+  const { showToast } = useAppContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // Get the queryClient
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/");
-    }
-  }, [isLoggedIn]);
 
   // Destructure methods and properties from useForm hook
   const {
@@ -59,7 +52,7 @@ export const Register = () => {
   };
 
   return (
-    <form className="flex flex-col max-w-5xl gap-5 mx-auto" onSubmit={onSubmit}>
+    <form className="flex flex-col max-w-3xl gap-5 mx-auto" onSubmit={onSubmit}>
       <h2 className="text-3xl font-bold">Create an Account</h2>
       <div className="flex flex-col md:flex-row max-w-4xl gap-5">
         {/* First Name input field */}

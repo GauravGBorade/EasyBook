@@ -34,15 +34,12 @@ export const signIn = async (formData: SignInFormData) => {
   if (!response.ok) {
     throw new Error(responseData.message);
   }
-  console.log(responseData);
 
   return responseData;
 };
 
 //* Validate the token for Logged in User
 export const validateToken = async () => {
-  console.log("called validate token");
-
   const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
     credentials: "include", //this will ensure we are sending cookie with the request.
   });
@@ -61,4 +58,16 @@ export const signOut = async () => {
   if (!response.ok) {
     throw new Error("Error during sign out");
   }
+};
+
+export const addMyHotel = async (formData: FormData) => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+  if (!response.ok) {
+    throw new Error("Failed to add Hotel");
+  }
+  return response.json();
 };

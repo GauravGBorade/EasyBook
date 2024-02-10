@@ -11,15 +11,9 @@ export type SignInFormData = {
 };
 
 export const SignIn = () => {
-  const { showToast, isLoggedIn } = useAppContext();
+  const { showToast } = useAppContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // Get the queryClient
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/");
-    }
-  }, [isLoggedIn]);
 
   const {
     register,
@@ -45,7 +39,7 @@ export const SignIn = () => {
   });
 
   return (
-    <form className="flex flex-col max-w-5xl gap-5 mx-auto" onSubmit={onSubmit}>
+    <form className="flex flex-col max-w-3xl gap-5 mx-auto" onSubmit={onSubmit}>
       <h2 className="text-3xl font-bold">Sign In</h2>
       <label className="text-gray-700 text-sm max-w-3xl font-bold flex-1">
         Email

@@ -4,8 +4,8 @@ import {
   login,
   logout,
   verifyTokenReturn,
-} from "../controllers/AuthController";
-import verifyToken from "../middleware/auth";
+} from "../controllers/auth_controller";
+import verifyToken from "../middleware/auth_middleware";
 
 const router = express.Router();
 /* We are using express validator which will validate the requests for us.
