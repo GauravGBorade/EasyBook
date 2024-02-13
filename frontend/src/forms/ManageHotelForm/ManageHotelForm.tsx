@@ -6,6 +6,7 @@ import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
 import { HotelType } from "../../../../backend/src/shared/types";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export type HotelFormData = {
   name: string;
@@ -27,9 +28,10 @@ type Props = {
   hotel?: HotelType;
   onSave: (hotelFormData: FormData) => void;
   isLoading: boolean;
+  onEditPage: boolean;
 };
 
-const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
+const ManageHotelForm = ({ onSave, isLoading, hotel, onEditPage }: Props) => {
   const formMethods = useForm<HotelFormData>(); //get all the values in formMethods
   // Then pass them to child forms using FormProvider
 
@@ -82,7 +84,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={onSubmit}>
-        <DetailsSection />
+        <DetailsSection onEditPage={onEditPage} />
         <Typesection />
         <FacilitiesSection />
         <GuestsSection />
@@ -93,7 +95,13 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
             className="bg-blue-600 text-white p-2 font-bold hove:bg-blue-500 text-xl disabled:bg-gray-500"
             disabled={isLoading}
           >
-            {isLoading ? "Saving..." : "Save"}
+            {onEditPage
+              ? isLoading
+                ? "Updating..."
+                : "Update"
+              : isLoading
+              ? "Saving..."
+              : "Save"}
           </button>
         </span>
       </form>

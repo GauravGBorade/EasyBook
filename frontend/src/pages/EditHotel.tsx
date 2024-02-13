@@ -19,6 +19,10 @@ const EditHotel = () => {
   const { mutate, isLoading } = useMutation(apiClient.updateMyHotelById, {
     onSuccess: () => {
       showToast({ message: "Hotel Updated!", type: "SUCCESS" });
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     },
     onError: () => {
       showToast({ message: "Something Went Wrong!", type: "ERROR" });
@@ -28,8 +32,15 @@ const EditHotel = () => {
   const handleSave = (hotelFormData: FormData) => {
     mutate(hotelFormData);
   };
+  const onEditPage = true;
+
   return (
-    <ManageHotelForm hotel={hotel} onSave={handleSave} isLoading={isLoading} />
+    <ManageHotelForm
+      hotel={hotel}
+      onSave={handleSave}
+      isLoading={isLoading}
+      onEditPage={onEditPage}
+    />
   );
 };
 

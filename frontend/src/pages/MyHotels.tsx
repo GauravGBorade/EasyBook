@@ -8,7 +8,17 @@ const MyHotels = () => {
   const { data: hotelData } = useQuery("fetchMyHotels", apiClient.getMyHotels); //fetch request from apiClient will return response.json() which will always be called as data by useQuery. we destructured it and renamed it to hotelData.
 
   if (hotelData?.length === 0) {
-    return <span>No Hotels Found</span>;
+    return (
+      <div className="gap-4 max-w-6xl mx-auto">
+        <span>No Hotels Found</span>
+        <Link
+          to="/add-hotel"
+          className="bg-blue-600  text-xl text-white font-bold hove:bg-blue-500 p-2 ml-4"
+        >
+          Add Hotel
+        </Link>
+      </div>
+    );
   }
   return (
     <div className="space-y-5 flex flex-col gap-4 max-w-6xl mx-auto">
