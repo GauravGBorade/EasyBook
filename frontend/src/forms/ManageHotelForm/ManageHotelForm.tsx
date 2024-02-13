@@ -6,7 +6,6 @@ import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
 import { HotelType } from "../../../../backend/src/shared/types";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export type HotelFormData = {
   name: string;
