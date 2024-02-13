@@ -38,7 +38,10 @@ export const SignIn = () => {
   });
 
   return (
-    <form className="flex flex-col max-w-3xl gap-5 mx-auto" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col max-w-3xl gap-5 mx-auto background-style p-16"
+      onSubmit={onSubmit}
+    >
       <h2 className="text-3xl font-bold">Sign In</h2>
       <label className="text-gray-700 text-sm max-w-3xl font-bold flex-1">
         Email

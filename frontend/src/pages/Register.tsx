@@ -52,7 +52,10 @@ export const Register = () => {
   };
 
   return (
-    <form className="flex flex-col max-w-3xl gap-5 mx-auto" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col max-w-3xl gap-5 mx-auto background-style p-16"
+      onSubmit={onSubmit}
+    >
       <h2 className="text-3xl font-bold">Create an Account</h2>
       <div className="flex flex-col md:flex-row max-w-4xl gap-5">
         {/* First Name input field */}

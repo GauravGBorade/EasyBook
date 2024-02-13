@@ -62,6 +62,8 @@ export const signOut = async () => {
   }
 };
 
+//* post req to /api/my-hotels to create hotel
+
 export const addMyHotel = async (formData: FormData) => {
   const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
     method: "POST",
@@ -74,10 +76,40 @@ export const addMyHotel = async (formData: FormData) => {
   return await response.json();
 };
 
+//* get req to /api/my-hotels to get all hotels created by user
+
 export const getMyHotels = async (): Promise<HotelType[]> => {
   const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
     credentials: "include",
   });
+  if (!response.ok) {
+    throw new Error("Failed to get Hotels");
+  }
+  return await response.json();
+};
+
+//get user hotel by id
+export const getHotelById = async (hotelId: string): Promise<HotelType> => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels/${hotelId}`, {
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get Hotels");
+  }
+  return await response.json();
+};
+
+//udpate the hotel
+
+export const updateMyHotelById = async (hotelFormData: FormData) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/my-hotels/${hotelFormData.get("hotelId")}`,
+    {
+      method: "PUT",
+      body: hotelFormData,
+      credentials: "include",
+    }
+  );
   if (!response.ok) {
     throw new Error("Failed to get Hotels");
   }

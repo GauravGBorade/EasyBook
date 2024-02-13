@@ -8,3 +8,10 @@
     margin: 0;
   }
 }
+@layer base {
+  .background-style {
+    border-radius: 31px;
+
+    box-shadow: 26px 26px 42px #cccccc, -26px -26px 42px #f4f4f4;
+  }
+}

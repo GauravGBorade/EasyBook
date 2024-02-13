@@ -3,12 +3,11 @@ import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
 
 export const SignOutButton = () => {
-  const { showToast, isLoggedIn } = useAppContext();
+  const { showToast } = useAppContext();
   const queryClient = useQueryClient();
   const mutation = useMutation(apiClient.signOut, {
     onSuccess: async () => {
       await queryClient.invalidateQueries("validateToken");
-      console.log("IsloggedIn- ", isLoggedIn);
 
       showToast({ message: "Signed Out!", type: "SUCCESS" });
     },

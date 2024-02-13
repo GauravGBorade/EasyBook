@@ -1,11 +1,18 @@
 import express from "express";
-import { addHotel, getMyHotels } from "../controllers/my_hotels_controller";
+import {
+  addHotel,
+  getAllMyHotels,
+  getUserHotelById,
+  updateHotel,
+} from "../controllers/my_hotels_controller";
 import upload from "../middleware/multer_middleware";
 import verifyToken from "../middleware/auth_middleware";
 import { body } from "express-validator";
 const router = express.Router();
 
 //route - api/my-hotels
+
+//! Create new hotel post request
 router.post(
   "/",
   verifyToken,
@@ -30,7 +37,17 @@ router.post(
   addHotel
 ); //upload middleware is to store files submitted by user in memoryStorage using multer until we upload them to cloudinary
 
-//! Get all Hotels
-router.get("/", verifyToken, getMyHotels);
+//! Get User's Hotels
+router.get("/", verifyToken, getAllMyHotels);
+
+//! Edit User's Hotel
+router.get("/:id", verifyToken, getUserHotelById);
+
+router.put(
+  "/:hotelId",
+  verifyToken,
+  upload.array("imageFiles", 6),
+  updateHotel
+);
 
 export default router;
