@@ -4,12 +4,8 @@ import { HotelSearchResponse } from "../shared/types";
 
 export const getHotels = async (req: Request, res: Response) => {
   try {
-    console.log("*** before any modification query : - ", req.query);
-
     //add the regexp to query object using below function. This will add what user typed in search box and convert it to reg ex object which we can pass to Hote.find() below to filter hotels.
     const query = constructSearchQuery(req.query);
-
-    console.log("*** after creating search Query :- ", query);
 
     let sortOption = {};
 
