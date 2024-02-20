@@ -128,6 +128,7 @@ const Search = () => {
             className="p-2 rounded-md border"
             value={sortOption}
             onChange={(event) => {
+              setPage(1);
               setSortOption(event.target.value);
             }}
           >
