@@ -24,7 +24,7 @@ const Header = () => {
                 className="flex items-center text-white px-4 font-bold hover:bg-blue-600 hover:rounded"
                 to="/my-hotels"
               >
-                My Hotels
+                List Your Property
               </Link>
               <SignOutButton />
             </>

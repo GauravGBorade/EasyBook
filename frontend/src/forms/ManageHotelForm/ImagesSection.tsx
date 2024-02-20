@@ -8,7 +8,6 @@ const ImagesSection = () => {
     watch,
     setValue,
   } = useFormContext<HotelFormData>();
-
   const existingImageUrls = watch("imageUrls");
 
   //filter out the delete clicked image and return others.

@@ -22,7 +22,7 @@ export const hotelFacilities = [
   "Outdoor Pool",
   "Fitness Center",
   "Pets Allowed",
-  "toiletries",
+  "Toiletries",
   "Laundry",
   "AC",
   "Fridge",
