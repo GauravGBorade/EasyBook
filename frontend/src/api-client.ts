@@ -116,7 +116,7 @@ export const updateMyHotelById = async (hotelFormData: FormData) => {
   return await response.json();
 };
 
-//defining queryParams type
+//defining queryParams type for seach hotel
 export type SearchParams = {
   destination?: string;
   checkIn?: string;
@@ -163,6 +163,14 @@ export const searchHotels = async (
   );
   if (!response.ok) {
     throw new Error("Error fetching hotels");
+  }
+  return await response.json();
+};
+
+export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/hotel/${hotelId}`);
+  if (!response.ok) {
+    throw new Error("Error fetching hotel");
   }
   return await response.json();
 };
