@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
 
 //! Register the user
-const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array() });
@@ -57,4 +57,18 @@ const hashPassword = async function (password: string): Promise<string> {
   return bcrypt.hash(password, 8);
 };
 
-export { register };
+//! Get signedIn user -
+
+export const getLoggedInUser = async (req: Request, res: Response) => {
+  const userId = req.userId;
+  try {
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      res.status(400).json({ message: "User Not Found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something Went Wrong" });
+  }
+};

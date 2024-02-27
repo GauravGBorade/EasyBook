@@ -3,6 +3,7 @@ import Hotel from "../models/hotel";
 import { HotelSearchResponse } from "../shared/types";
 import { validationResult } from "express-validator";
 
+//!get hotels (searching and sorting)
 export const getHotels = async (req: Request, res: Response) => {
   try {
     //add the regexp to query object using below function. This will add what user typed in search box and convert it to reg ex object which we can pass to Hote.find() below to filter hotels.
@@ -68,7 +69,7 @@ export const getHotels = async (req: Request, res: Response) => {
   }
 };
 
-//get hotel details by id.
+//!get hotel details by id.
 export const getAnyHotelById = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -83,6 +84,19 @@ export const getAnyHotelById = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error Fetching Hotel" });
+  }
+};
+
+export const getAllHotels = async (req: Request, res: Response) => {
+  try {
+    const hotels = await Hotel.find().sort("-lastUpdated");
+    if (!hotels) {
+      return res.status(500).json("something went wrong");
+    }
+    res.json(hotels);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error Fetching Hotels" });
   }
 };
 

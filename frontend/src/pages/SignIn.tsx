@@ -27,6 +27,7 @@ export const SignIn = () => {
       showToast({ message: "Sign In Successful", type: "SUCCESS" });
       //! call the verifyToken useQuery again to set the user as loggedIn
       await queryClient.invalidateQueries("validateToken");
+
       navigate(location.state?.from?.pathname || "/");
     },
     onError: (error: Error) => {

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useSeachContext } from "../contexts/SearchContext";
 import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
@@ -17,6 +17,14 @@ const SearchBar = () => {
   const [adultCount, setAdultCount] = useState<number>(search.adultCount);
   const [childCount, setChildCount] = useState<number>(search.childCount);
 
+  useEffect(() => {
+    setDestination(search.destination);
+    setCheckIn(search.checkIn);
+    setCheckOut(search.checkOut);
+    setAdultCount(search.adultCount);
+    setChildCount(search.childCount);
+  }, [search]);
+
   //As discussed above update the values in SearchContext when user clicks search button.
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -28,11 +36,6 @@ const SearchBar = () => {
       childCount
     );
     navigate("/search");
-  };
-
-  const handleClear = (event: FormEvent) => {
-    event.preventDefault();
-    search.saveSearchValues("", new Date(), new Date(), 1, 0);
   };
 
   const minDate = new Date();
@@ -111,10 +114,7 @@ const SearchBar = () => {
         <button className="w-2/3 bg-blue-600 text-white h-full p-3 font-bold text-xl hover:bg-blue-500 rounded-md">
           Search
         </button>
-        <button
-          onClick={handleClear}
-          className="w-1/3 bg-red-600 text-white h-full p-3 font-bold text-xl hover:bg-red-500 rounded-md"
-        >
+        <button className="w-1/3 bg-red-600 text-white h-full p-3 font-bold text-xl hover:bg-red-500 rounded-md">
           Clear
         </button>
       </div>
