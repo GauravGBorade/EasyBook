@@ -9,7 +9,7 @@ const PriceFilter = ({ selectedPrice, onChange }: Props) => {
       <h4 className="text-md font-semibold mb-2">Max Price</h4>
       <select
         className="p-2 border rounded-md w-full"
-        value={selectedPrice}
+        value={selectedPrice !== undefined ? selectedPrice : ""}
         onChange={(event) =>
           onChange(
             event.target.value ? parseInt(event.target.value) : undefined

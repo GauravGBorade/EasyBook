@@ -10,6 +10,7 @@ import { useSeachContext } from "../../contexts/SearchContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useAppContext } from "../../contexts/AppContext";
+import { useState } from "react";
 
 type Props = {
   currentUser: UserType;
@@ -36,20 +37,18 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
   const { showToast } = useAppContext();
   const { hotelId } = useParams();
   const navigate = useNavigate();
+  const [isLoadingOuter, setIsLoadingOuter] = useState(false);
 
   //mutate i.e. bookRoom will be called when payment status is succeeded. this will call api createRoomBooking with formData which is required for room booking
-  const { mutate: bookRoom, isLoading } = useMutation(
-    apiClient.createRoomBooking,
-    {
-      onSuccess: () => {
-        navigate("/my-bookings");
-        showToast({ message: "Booking Saved!", type: "SUCCESS" });
-      },
-      onError: () => {
-        showToast({ message: "Error Saving Booking", type: "ERROR" });
-      },
-    }
-  );
+  const { mutate: bookRoom } = useMutation(apiClient.createRoomBooking, {
+    onSuccess: () => {
+      showToast({ message: "Booking Saved!", type: "SUCCESS" });
+      navigate("/my-bookings");
+    },
+    onError: () => {
+      showToast({ message: "Error Saving Booking", type: "ERROR" });
+    },
+  });
 
   const { register, handleSubmit } = useForm<BookingFormData>({
     defaultValues: {
@@ -68,6 +67,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
 
   //when form submited handleSubmit from useForm is called which processes form data and gives us in below function
   const onSubmit = async (formData: BookingFormData) => {
+    setIsLoadingOuter(true);
     if (!stripe || !elements) {
       return;
     }
@@ -80,6 +80,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
     if (result.paymentIntent?.status === "succeeded") {
       bookRoom({ ...formData, paymentIntentId: result.paymentIntent.id });
     }
+    setIsLoadingOuter(false);
   };
 
   return (
@@ -138,11 +139,11 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
       </div>
       <div className="flex justify-end">
         <button
-          disabled={isLoading}
+          disabled={isLoadingOuter}
           type="submit"
           className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-md disabled:bg-gray-500"
         >
-          {isLoading ? "Booking..." : "Confirm Booking"}
+          {isLoadingOuter ? "Booking..." : "Confirm Booking"}
         </button>
       </div>
     </form>

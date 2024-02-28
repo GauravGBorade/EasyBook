@@ -17,7 +17,7 @@ const SearchResultCard = ({ hotel }: Props) => {
           className="2xl:w-[80%] w-full h-[350px] object-cover object-center rounded-md"
         />
       </div>
-      <div className="grid grid-rows-[1fr_2fr_3fr]">
+      <div className="grid grid-rows-[1fr_2fr_2fr]">
         <div>
           <div className="flex items-center">
             <span className="flex">
@@ -37,8 +37,8 @@ const SearchResultCard = ({ hotel }: Props) => {
             {hotel.name}
           </Link>
         </div>
-        <div className="">
-          <div className="line-clamp-4">{hotel.description}</div>
+        <div>
+          <div className="line-clamp-5">{hotel.description}</div>
         </div>
         <div className="grid grid-cols-2 items-end whitespace-nowrap">
           <div className="flex gap-1 items-center">

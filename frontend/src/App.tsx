@@ -31,6 +31,14 @@ const App = () => {
             </Layout>
           }
         />
+        {/* <Route
+          path="/loader"
+          element={
+            <Layout>
+              <Loader />
+            </Layout>
+          }
+        /> */}
         <Route
           path="/search"
           element={

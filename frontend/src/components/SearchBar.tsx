@@ -4,10 +4,12 @@ import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../contexts/AppContext";
 
 const SearchBar = () => {
   const search = useSeachContext();
   const navigate = useNavigate();
+  const { showToast } = useAppContext();
 
   /* we are creating local state for these variables even though we have them in search context is because, we will update them whenever user types in those fields and if we update them directly in searchContext then it will cause the render of whole app for each input. To avoid it we have created local state and once user clicks on search button we will use Search Context's function to set state values in serchcontext.
    */
@@ -16,6 +18,10 @@ const SearchBar = () => {
   const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
   const [adultCount, setAdultCount] = useState<number>(search.adultCount);
   const [childCount, setChildCount] = useState<number>(search.childCount);
+
+  function isBefore(date1: Date, date2: Date): boolean {
+    return date1.getTime() < date2.getTime();
+  }
 
   useEffect(() => {
     setDestination(search.destination);
@@ -28,6 +34,15 @@ const SearchBar = () => {
   //As discussed above update the values in SearchContext when user clicks search button.
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+
+    if (checkIn && checkOut && isBefore(checkOut, checkIn)) {
+      showToast({
+        message: "Check-In & Check-Out Dates Invalid",
+        type: "ERROR",
+      });
+      return;
+    }
+
     search.saveSearchValues(
       destination,
       checkIn,
@@ -38,9 +53,16 @@ const SearchBar = () => {
     navigate("/search");
   };
 
+  const handleClearClick = (event: FormEvent) => {
+    event.preventDefault();
+
+    search.saveSearchValues("", new Date(), new Date(), 1, 0);
+  };
+
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1); // Setting max date for check-in 1 year from today's date
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -98,7 +120,17 @@ const SearchBar = () => {
       <div>
         <DatePicker
           selected={checkOut}
-          onChange={(date) => setCheckOut(date as Date)}
+          onChange={(date) => {
+            // Ensure checkOut date is not less than checkIn date
+            if (date && isBefore(date, checkIn)) {
+              showToast({
+                message: "Check-In & Check-Out Dates Invalid",
+                type: "ERROR",
+              });
+              return;
+            }
+            setCheckOut(date as Date);
+          }}
           selectsStart
           startDate={checkIn}
           endDate={checkOut}
@@ -114,7 +146,10 @@ const SearchBar = () => {
         <button className="w-2/3 bg-blue-600 text-white h-full p-3 font-bold text-xl hover:bg-blue-500 rounded-md">
           Search
         </button>
-        <button className="w-1/3 bg-red-600 text-white h-full p-3 font-bold text-xl hover:bg-red-500 rounded-md">
+        <button
+          onClick={handleClearClick}
+          className="w-1/3 bg-red-600 text-white h-full p-3 font-bold text-xl hover:bg-red-500 rounded-md"
+        >
           Clear
         </button>
       </div>
