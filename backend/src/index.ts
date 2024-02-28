@@ -34,7 +34,7 @@ app.use(
   })
 ); //security - prevents certain req from certain urls
 
-//! app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -43,9 +43,9 @@ app.use("/api/hotels", hotelRoutes);
 app.use("/api/my-bookings", bookingRoutes);
 
 //catch all routes - catch all requests which are not api request be handled by html file i.e. our frontend. it will use react router :)
-//! app.get("*", (req: Request, res: Response) => {
-// !  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
-//! });
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 //start the server on port - 3000 and on local network with ip 192.168.0.166
 
