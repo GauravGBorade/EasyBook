@@ -29,7 +29,10 @@ app.use(express.json()); //helps to parse body form requests
 app.use(express.urlencoded({ extended: true })); //helps to parse url. e.g. to get query params
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: [
+      process.env.FRONTEND_URL as string,
+      "https://easy-book-server.vercel.app/",
+    ],
     credentials: true,
   })
 ); //security - prevents certain req from certain urls
