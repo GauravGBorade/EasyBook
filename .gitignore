@@ -3,4 +3,4 @@ node_modules/
 .env.e2e
 .vscode
 e2e-tests/
-
+dist
