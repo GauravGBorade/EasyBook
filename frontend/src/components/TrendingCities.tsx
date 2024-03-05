@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useSeachContext } from "../contexts/SearchContext";
+import { useSearchContext } from "../contexts/SearchContext";
 
 type Props = {
   city: string;
@@ -7,7 +7,7 @@ type Props = {
 };
 
 const TrendingCities = ({ city, imagePath }: Props) => {
-  const search = useSeachContext();
+  const search = useSearchContext();
   const navigate = useNavigate();
 
   const handleClick = () => {

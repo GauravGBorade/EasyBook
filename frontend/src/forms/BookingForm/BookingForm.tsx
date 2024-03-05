@@ -6,7 +6,7 @@ import {
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import * as apiClient from "../../api-client";
 import { StripeCardElement } from "@stripe/stripe-js";
-import { useSeachContext } from "../../contexts/SearchContext";
+import { useSearchContext } from "../../contexts/SearchContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useAppContext } from "../../contexts/AppContext";
@@ -33,16 +33,17 @@ export type BookingFormData = {
 const BookingForm = ({ currentUser, paymentIntent }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
-  const search = useSeachContext();
+  const search = useSearchContext();
   const { showToast } = useAppContext();
   const { hotelId } = useParams();
   const navigate = useNavigate();
-  const [isLoadingOuter, setIsLoadingOuter] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //mutate i.e. bookRoom will be called when payment status is succeeded. this will call api createRoomBooking with formData which is required for room booking
   const { mutate: bookRoom } = useMutation(apiClient.createRoomBooking, {
     onSuccess: () => {
       showToast({ message: "Booking Saved!", type: "SUCCESS" });
+      setIsLoading(false);
       navigate("/my-bookings");
     },
     onError: () => {
@@ -67,10 +68,12 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
 
   //when form submited handleSubmit from useForm is called which processes form data and gives us in below function
   const onSubmit = async (formData: BookingFormData) => {
-    setIsLoadingOuter(true);
+    setIsLoading(true);
     if (!stripe || !elements) {
+      setIsLoading(false);
       return;
     }
+
     const result = await stripe.confirmCardPayment(paymentIntent.clientSecret, {
       payment_method: {
         card: elements.getElement(CardElement) as StripeCardElement,
@@ -79,8 +82,9 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
 
     if (result.paymentIntent?.status === "succeeded") {
       bookRoom({ ...formData, paymentIntentId: result.paymentIntent.id });
+    } else {
+      showToast({ message: "Error Processing Payment", type: "ERROR" });
     }
-    setIsLoadingOuter(false);
   };
 
   return (
@@ -139,11 +143,13 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
       </div>
       <div className="flex justify-end">
         <button
-          disabled={isLoadingOuter}
+          disabled={isLoading}
           type="submit"
-          className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-md disabled:bg-gray-500"
+          className={`bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-md disabled:bg-gray-500 cursor-${
+            isLoading ? "not-allowed" : "pointer"
+          }`}
         >
-          {isLoadingOuter ? "Booking..." : "Confirm Booking"}
+          {isLoading ? "Booking..." : "Confirm Booking"}
         </button>
       </div>
     </form>

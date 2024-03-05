@@ -19,7 +19,10 @@ const MyBookings = () => {
     <div className="space-y-5">
       <h1 className="text-3xl font-bold">My Bookings</h1>
       {hotels.map((hotel) => (
-        <div className="grid grid-cols-1 xl:grid-cols-[1fr_2fr] border border-slate-300 rounded-lg p-8 gap-10">
+        <div
+          className="grid grid-cols-1 xl:grid-cols-[1fr_2fr] border border-slate-300 rounded-lg p-8 gap-10"
+          key={hotel._id}
+        >
           <div className="lg:w-full lg:h-[350px]">
             <img
               src={hotel.imageUrls[0]}
@@ -35,7 +38,7 @@ const MyBookings = () => {
               </div>
             </div>
             {hotel.bookings.map((booking) => (
-              <div className="mt-3">
+              <div className="mt-3" key={booking._id}>
                 <div>
                   <span className="text-lg font-bold mr-2">Dates: </span>
                   <span>

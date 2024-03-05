@@ -94,7 +94,7 @@ export const SearchContextProvider = ({
   );
 };
 
-export const useSeachContext = () => {
+export const useSearchContext = () => {
   const context = useContext(SearchContext);
   return context as SearchContext;
 };

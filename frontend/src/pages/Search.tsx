@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useSeachContext } from "../contexts/SearchContext";
+import { useSearchContext } from "../contexts/SearchContext";
 import * as apiClient from "../api-client";
 import { useState } from "react";
 import SearchResultCard from "../components/SearchResultCard";
@@ -10,7 +10,7 @@ import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
 
 const Search = () => {
-  const search = useSeachContext();
+  const search = useSearchContext();
   const [page, setPage] = useState<number>(1);
   const [selectedStars, setSelectedStars] = useState<string[]>([]);
   const [selectedHotelTypes, setSelectedHotelTypes] = useState<string[]>([]);
@@ -98,9 +98,13 @@ const Search = () => {
     setSelectedHotelTypes([]);
     setSelectedMaxPrice(undefined);
   };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-      <div className="rounded-lg border border-slate-300 p-5 h-fit sticky top-10">
+      <button className="block lg:hidden  cursor-pointer text-start p-2 w-fit bg-blue-600 text-white rounded-md font-bold">
+        Show Filters
+      </button>
+      <div className="hidden lg:block rounded-lg border border-slate-300 p-5 h-fit sticky top-10">
         <div className="space-y-5">
           <div className="flex justify-between">
             <h3 className="text-lg font-semibold border-b border-slate-300 pb-5 w-full">
@@ -133,6 +137,7 @@ const Search = () => {
           />
         </div>
       </div>
+
       <div className="flex flex-col gap-5">
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold">
