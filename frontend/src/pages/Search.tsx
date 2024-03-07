@@ -1,24 +1,58 @@
 import { useQuery } from "react-query";
 import { useSearchContext } from "../contexts/SearchContext";
 import * as apiClient from "../api-client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchResultCard from "../components/SearchResultCard";
 import Pagination from "../components/Pagination";
 import StarRatingFilter from "../components/StarRatingFilter";
 import HotelTypesFilter from "../components/HotelTypesFilter";
 import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
+import { CgClose } from "react-icons/cg";
+import { FiFilter } from "react-icons/fi";
 
 const Search = () => {
   const search = useSearchContext();
   const [page, setPage] = useState<number>(1);
-  const [selectedStars, setSelectedStars] = useState<string[]>([]);
-  const [selectedHotelTypes, setSelectedHotelTypes] = useState<string[]>([]);
-  const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
+  const [selectedStars, setSelectedStars] = useState<string[]>(
+    JSON.parse(sessionStorage.getItem("selectedStars") || "[]")
+  );
+  const [selectedHotelTypes, setSelectedHotelTypes] = useState<string[]>(
+    JSON.parse(sessionStorage.getItem("selectedHotelTypes") || "[]")
+  );
+  const [selectedFacilities, setSelectedFacilities] = useState<string[]>(
+    JSON.parse(sessionStorage.getItem("selectedFacilities") || "[]")
+  );
   const [selectedMaxPrice, setSelectedMaxPrice] = useState<
     number | undefined
   >();
+
   const [sortOption, setSortOption] = useState<string>("");
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const filterMenuRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+  //store filters in session storage
+  useEffect(() => {
+    sessionStorage.setItem("selectedStars", JSON.stringify(selectedStars));
+    sessionStorage.setItem(
+      "selectedHotelTypes",
+      JSON.stringify(selectedHotelTypes)
+    );
+    sessionStorage.setItem(
+      "selectedFacilities",
+      JSON.stringify(selectedFacilities)
+    );
+  }, [selectedStars, selectedHotelTypes, selectedFacilities]);
+
+  //handle mouse clicks outside for hiding filter menu on mobile screens
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isFilterVisible]);
 
   //* search from useContext has all the fields which are entered by user set in context. we need to convert them to searchParams object so that we can pass them to fetch function using useQuery()
 
@@ -57,6 +91,8 @@ const Search = () => {
     5. In UI we have added checked attribute to checkbox whose value is determined by if current star UI is looping over to show is in the selectedStars array. */
 
   const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    sessionStorage.setItem("selectedStars", JSON.stringify(selectedStars));
+
     const starRating = event.target.value;
     //set the stars in state according to if box is checked or not. if checked then add it to previous array and if already checked and user unchecks it
 
@@ -97,44 +133,73 @@ const Search = () => {
     setSelectedFacilities([]);
     setSelectedHotelTypes([]);
     setSelectedMaxPrice(undefined);
+    setIsFilterVisible(false);
+  };
+
+  const toggleFilterVisibility = () => {
+    setIsFilterVisible(!isFilterVisible);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      isFilterVisible &&
+      filterMenuRef.current &&
+      !filterMenuRef.current.contains(event.target as Node) &&
+      !buttonRef.current?.contains(event.target as Node)
+    ) {
+      setIsFilterVisible(false);
+    }
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-      <button className="block lg:hidden  cursor-pointer text-start p-2 w-fit bg-blue-600 text-white rounded-md font-bold">
-        Show Filters
-      </button>
-      <div className="hidden lg:block rounded-lg border border-slate-300 p-5 h-fit sticky top-10">
-        <div className="space-y-5">
-          <div className="flex justify-between">
-            <h3 className="text-lg font-semibold border-b border-slate-300 pb-5 w-full">
-              Filter by:
-            </h3>
-            <span>
-              <button
-                className="text-sm bg-blue-200 px-2 py-1 rounded"
-                onClick={clearFilters}
-              >
-                Clear
-              </button>
-            </span>
+      <div className="lg:hidden flex justify-end">
+        <button
+          ref={buttonRef}
+          className="p-2 bg-blue-500 text-white rounded-md"
+          onClick={toggleFilterVisibility}
+        >
+          {isFilterVisible ? <CgClose /> : <FiFilter />}
+        </button>
+      </div>
+      <div
+        ref={filterMenuRef}
+        className={`lg:block ${
+          isFilterVisible ? "fixed overflow-y-auto h-screen" : "hidden"
+        } top-0 left-0 bg-white z-10`}
+      >
+        <div className="rounded-lg border border-slate-300 p-5 h-fit sticky top-10 overflow-y-auto">
+          <div className="space-y-5">
+            <div className="flex justify-between">
+              <h3 className="text-lg font-semibold border-b border-slate-300 pb-5 w-full">
+                Filter by:
+              </h3>
+              <span>
+                <button
+                  className="text-sm bg-blue-200 px-2 py-1 rounded"
+                  onClick={clearFilters}
+                >
+                  Clear
+                </button>
+              </span>
+            </div>
+            <StarRatingFilter
+              selectedStars={selectedStars}
+              onChange={handleStarsChange}
+            />
+            <HotelTypesFilter
+              selectedHotelTypes={selectedHotelTypes}
+              onChange={handleTypesChange}
+            />
+            <FacilitiesFilter
+              onChange={handleFacilitiesChange}
+              selectedFacilities={selectedFacilities}
+            />
+            <PriceFilter
+              onChange={handlePriceChange}
+              selectedPrice={selectedMaxPrice}
+            />
           </div>
-          <StarRatingFilter
-            selectedStars={selectedStars}
-            onChange={handleStarsChange}
-          />
-          <HotelTypesFilter
-            selectedHotelTypes={selectedHotelTypes}
-            onChange={handleTypesChange}
-          />
-          <FacilitiesFilter
-            onChange={handleFacilitiesChange}
-            selectedFacilities={selectedFacilities}
-          />
-          <PriceFilter
-            onChange={handlePriceChange}
-            selectedPrice={selectedMaxPrice}
-          />
         </div>
       </div>
 
