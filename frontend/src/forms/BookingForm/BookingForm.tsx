@@ -93,7 +93,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <span className="text-3xl font-bold">Confirm Your Details</span>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
         <label className="text-gray-700 text-sm font-bold flex-1">
           First Name
           <input

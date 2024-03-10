@@ -9,7 +9,7 @@ const SearchResultCard = ({ hotel }: Props) => {
   let starCount = 1;
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-8 gap-8">
+    <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg sm:p-8 p-4 gap-8">
       <div className="w-full h-full flex items-center justify-center">
         <img
           src={hotel.imageUrls[0]}
@@ -40,7 +40,7 @@ const SearchResultCard = ({ hotel }: Props) => {
         <div>
           <div className="line-clamp-5">{hotel.description}</div>
         </div>
-        <div className="grid grid-cols-2 items-end whitespace-nowrap">
+        <div className="grid grid-col-1 sm:grid-cols-2 items-end whitespace-nowrap">
           <div className="flex gap-1 items-center">
             {hotel.facilities.slice(0, 3).map((facility, index) => (
               <span
@@ -55,14 +55,14 @@ const SearchResultCard = ({ hotel }: Props) => {
                 `+${hotel.facilities.length - 3} more`}
             </span>
           </div>
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-row sm:flex-col justify-between items-end gap-1">
             <span className="font-bold text-xl">
               ₹{hotel.pricePerNight}{" "}
               <span className="font-medium">per night</span>
             </span>
             <Link
               to={`/detail/${hotel._id}`}
-              className="bg-blue-600 text-white p-2 h-full text-xl max-w-fit hover:bg-blue-500"
+              className="bg-blue-600 rounded-md text-white p-2 h-full text-lg sm:text-xl max-w-fit hover:bg-blue-500"
             >
               View More
             </Link>

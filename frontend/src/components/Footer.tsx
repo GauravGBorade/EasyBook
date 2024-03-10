@@ -1,11 +1,11 @@
 const Footer = () => {
   return (
-    <div className="bg-blue-800 py-10">
-      <div className="w-4/5 mx-auto flex justify-between items-center">
-        <span className="text-3xl text-white font-bold tracking-tight">
+    <div className="bg-blue-800 py-10 px-2">
+      <div className="w-4/5 mx-auto flex sm:flex-row flex-col justify-between sm:items-center">
+        <span className="text-3xl text-white font-bold tracking-tight ">
           EasyBook
         </span>
-        <span className="text-white font-bold tracking-tight flex gap-4">
+        <span className="text-white font-bold tracking-tight flex  gap-4">
           <p className="cursor-pointer">Privacy Policy</p>
           <p className="cursor-pointer">Terms of Service</p>
         </span>

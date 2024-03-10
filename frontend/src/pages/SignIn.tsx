@@ -77,15 +77,15 @@ export const SignIn = () => {
       </label>
       {/* Submit button */}
       <span className="flex items-center justify-between max-w-3xl">
-        <span className="text-sm">
+        <span className="sm:text-sm text-xs">
           Not Registered ?
-          <span className=" px-2 underline underline-offset-2 text-blue-900">
+          <div className="underline underline-offset-2 text-blue-900">
             <Link to="/register">Create an account here</Link>
-          </span>
+          </div>
         </span>
         <button
           type="submit"
-          className="rounded-md bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"
+          className="rounded-md bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-md sm:text-xl"
         >
           Login
         </button>

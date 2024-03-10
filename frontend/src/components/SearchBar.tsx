@@ -143,12 +143,12 @@ const SearchBar = () => {
         />
       </div>
       <div className="flex gap-1">
-        <button className="w-2/3 bg-blue-600 text-white h-full p-3 font-bold text-xl hover:bg-blue-500 rounded-md">
+        <button className="w-2/3 bg-blue-600 text-white h-full p-3 font-bold text-lg sm:text-xl hover:bg-blue-500 rounded-md">
           Search
         </button>
         <button
           onClick={handleClearClick}
-          className="w-1/3 bg-red-600 text-white h-full p-3 font-bold text-xl hover:bg-red-500 rounded-md"
+          className="w-1/3 bg-red-600 text-white h-full p-3 font-bold text-lg sm:text-xl hover:bg-red-500 rounded-md"
         >
           Clear
         </button>

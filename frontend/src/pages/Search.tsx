@@ -205,7 +205,7 @@ const Search = () => {
 
       <div className="flex flex-col gap-5">
         <div className="flex justify-between items-center">
-          <span className="text-xl font-bold">
+          <span className="sm:text-xl text-xs font-bold">
             {hotelData?.pagination.total === 1
               ? `${hotelData.pagination.total} Hotel Found`
               : `${hotelData?.pagination.total} Hotels Found`}
