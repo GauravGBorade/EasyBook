@@ -5,6 +5,7 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AppContextProvider } from "./contexts/AppContext.tsx";
 import { SearchContextProvider } from "./contexts/SearchContext.tsx";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +21,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <AppContextProvider>
         <SearchContextProvider>
           <App />
+          <Toaster
+            position="bottom-right"
+            closeButton
+            duration={2000}
+            richColors
+          />
         </SearchContextProvider>
       </AppContextProvider>
     </QueryClientProvider>

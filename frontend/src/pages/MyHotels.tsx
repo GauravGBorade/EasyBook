@@ -15,7 +15,7 @@ const MyHotels = () => {
           to="/add-hotel"
           className="bg-blue-600  text-xl text-white font-bold hove:bg-blue-500 p-2 ml-4"
         >
-          Add Hotel
+          Add Property
         </Link>
       </div>
     );
@@ -23,12 +23,12 @@ const MyHotels = () => {
   return (
     <div className="space-y-5 flex flex-col gap-4 max-w-6xl mx-auto">
       <span className="flex justify-between">
-        <h1 className="text-3xl font-bold">My Hotels</h1>
+        <h1 className="text-3xl font-bold">My Properties</h1>
         <Link
           to="/add-hotel"
           className="bg-blue-600 flex text-xl text-white font-bold hove:bg-blue-500 p-2"
         >
-          Add Hotel
+          Add Property
         </Link>
       </span>
       <div className="grid grid-cols-1 gap-8">

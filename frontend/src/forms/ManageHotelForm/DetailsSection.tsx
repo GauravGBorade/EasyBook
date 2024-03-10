@@ -14,7 +14,7 @@ const DetailsSection = ({ onEditPage }: Props) => {
   return (
     <div className="flex flex-col gap-4 max-w-4xl  mx-auto">
       <h1 className="text-3xl font-bold mb-3">
-        {onEditPage ? "Edit Hotel" : "Add Hotel"}
+        {onEditPage ? "Edit Property" : "Add Property"}
       </h1>
       <label className="text-gray-700 text-sm  font-bold flex-1">
         Name

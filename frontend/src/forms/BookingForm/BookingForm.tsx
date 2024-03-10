@@ -9,8 +9,8 @@ import { StripeCardElement } from "@stripe/stripe-js";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
-import { useAppContext } from "../../contexts/AppContext";
 import { useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
   currentUser: UserType;
@@ -34,7 +34,6 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
   const search = useSearchContext();
-  const { showToast } = useAppContext();
   const { hotelId } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -42,12 +41,12 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
   //mutate i.e. bookRoom will be called when payment status is succeeded. this will call api createRoomBooking with formData which is required for room booking
   const { mutate: bookRoom } = useMutation(apiClient.createRoomBooking, {
     onSuccess: () => {
-      showToast({ message: "Booking Saved!", type: "SUCCESS" });
+      toast.success("Booking Confirmed!");
       setIsLoading(false);
       navigate("/my-bookings");
     },
     onError: () => {
-      showToast({ message: "Error Saving Booking", type: "ERROR" });
+      toast.error("Error Saving Booking");
     },
   });
 
@@ -83,7 +82,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
     if (result.paymentIntent?.status === "succeeded") {
       bookRoom({ ...formData, paymentIntentId: result.paymentIntent.id });
     } else {
-      showToast({ message: "Error Processing Payment", type: "ERROR" });
+      toast.error("Error Processing Payment");
     }
   };
 

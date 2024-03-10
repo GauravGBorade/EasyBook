@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
-import { useAppContext } from "../contexts/AppContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export type SignInFormData = {
   email: string;
@@ -10,7 +10,6 @@ export type SignInFormData = {
 };
 
 export const SignIn = () => {
-  const { showToast } = useAppContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // Get the queryClient
   const location = useLocation();
@@ -24,14 +23,15 @@ export const SignIn = () => {
   //* make call to signIn function which will call the api end point
   const mutation = useMutation(apiClient.signIn, {
     onSuccess: async () => {
-      showToast({ message: "Sign In Successful", type: "SUCCESS" });
+      toast.success("Sign In Successful");
+      // showToast({ message: "Sign In Successful", type: "SUCCESS" });
       //! call the verifyToken useQuery again to set the user as loggedIn
       await queryClient.invalidateQueries("validateToken");
 
       navigate(location.state?.from?.pathname || "/");
     },
     onError: (error: Error) => {
-      showToast({ message: error.message, type: "ERROR" });
+      toast.success(error.message);
     },
   });
 

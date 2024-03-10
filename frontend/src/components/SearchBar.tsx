@@ -4,12 +4,11 @@ import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../contexts/AppContext";
+import { toast } from "sonner";
 
 const SearchBar = () => {
   const search = useSearchContext();
   const navigate = useNavigate();
-  const { showToast } = useAppContext();
 
   /* we are creating local state for these variables even though we have them in search context is because, we will update them whenever user types in those fields and if we update them directly in searchContext then it will cause the render of whole app for each input. To avoid it we have created local state and once user clicks on search button we will use Search Context's function to set state values in serchcontext.
    */
@@ -36,10 +35,7 @@ const SearchBar = () => {
     event.preventDefault();
 
     if (checkIn && checkOut && isBefore(checkOut, checkIn)) {
-      showToast({
-        message: "Check-In & Check-Out Dates Invalid",
-        type: "ERROR",
-      });
+      toast.error("Check-In & Check-Out Dates Invalid");
       return;
     }
 
@@ -123,10 +119,7 @@ const SearchBar = () => {
           onChange={(date) => {
             // Ensure checkOut date is not less than checkIn date
             if (date && isBefore(date, checkIn)) {
-              showToast({
-                message: "Check-In & Check-Out Dates Invalid",
-                type: "ERROR",
-              });
+              toast.error("Check-In & Check-Out Dates Invalid");
               return;
             }
             setCheckOut(date as Date);
