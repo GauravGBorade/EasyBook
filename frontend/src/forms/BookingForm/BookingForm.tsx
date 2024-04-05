@@ -47,6 +47,8 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
     },
     onError: () => {
       toast.error("Error Saving Booking");
+      setIsLoading(false);
+      return;
     },
   });
 
@@ -83,6 +85,8 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
       bookRoom({ ...formData, paymentIntentId: result.paymentIntent.id });
     } else {
       toast.error("Error Processing Payment");
+      setIsLoading(false);
+      return;
     }
   };
 
@@ -139,6 +143,12 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
           id="payment-element"
           className="border rounded-lg p-4 text-5xl focus:outline-none focus:border-blue-500"
         />
+        <div className="text-sm text-slate-500">
+          Test Card: Success - 4242424242424242 04/24 242 42424
+        </div>
+        <div className="text-sm text-slate-500">
+          Test Card: Decline - 4000000000000002 04/24 242 42424
+        </div>
       </div>
       <div className="flex justify-end">
         <button

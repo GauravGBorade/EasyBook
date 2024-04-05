@@ -8,7 +8,7 @@ const Home = () => {
     apiClient.fetchHotels()
   );
 
-  const topRowHotels = hotels?.slice(0, 4) || [];
+  const topRowHotels = hotels?.slice(4, 8) || [];
 
   return (
     <div className="space-y-6">

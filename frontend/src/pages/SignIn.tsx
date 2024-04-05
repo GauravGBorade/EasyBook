@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
@@ -18,6 +20,7 @@ export const SignIn = () => {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<SignInFormData>();
 
   //* make call to signIn function which will call the api end point
@@ -31,13 +34,19 @@ export const SignIn = () => {
       navigate(location.state?.from?.pathname || "/");
     },
     onError: (error: Error) => {
-      toast.success(error.message);
+      toast.error(error.message);
     },
   });
 
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
+
+  const signInAsGuest: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
+    setValue("email", "test@t.com");
+    setValue("password", "11111!");
+  };
 
   return (
     <form
@@ -90,6 +99,14 @@ export const SignIn = () => {
           Login
         </button>
       </span>
+      <div className="flex items-center justify-center w-full mt-5">
+        <button
+          className="w-[60%] rounded-md bg-blue-700 p-2 text-white hover:bg-blue-600 text-md sm:text-xl"
+          onClick={signInAsGuest}
+        >
+          Sign in as guest
+        </button>
+      </div>
     </form>
   );
 };

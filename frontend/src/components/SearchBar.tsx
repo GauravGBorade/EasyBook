@@ -73,7 +73,6 @@ const SearchBar = () => {
           onChange={(event) => setDestination(event.target.value)}
         />
       </div>
-
       <div className="flex justify-center bg-white p-2 px-3  gap-2 rounded-md">
         <label className="items-center flex text-l">
           Adults:
@@ -137,7 +136,7 @@ const SearchBar = () => {
       </div>
       <div className="flex gap-1">
         <button className="w-2/3 bg-blue-600 text-white h-full p-3 font-bold text-lg sm:text-xl hover:bg-blue-500 rounded-md">
-          Search
+          {destination ? "Search" : "Show All Hotels"}
         </button>
         <button
           onClick={handleClearClick}
